@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Which Silly Creature Are You?</title>
+
+<style>
+body {
+    font-family: "Comic Sans MS", cursive;
+    background: linear-gradient(120deg, #ff9de2, #8fd3ff);
+    text-align: center;
+    padding: 20px;
+}
+
+.box {
+    background: white;
+    border-radius: 30px;
+    padding: 25px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 0 25px rgba(0,0,0,0.2);
+}
+
+h1 {
+    font-size: 36px;
+}
+
+#animal {
+    font-size: 80px;
+}
+
+button {
+    width: 100%;
+    padding: 18px;
+    margin: 8px 0;
+    border-radius: 20px;
+    border: none;
+    font-size: 22px;
+    background: #ffe3f3;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ffd0ec;
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h1>🐾 Which Silly Creature Are You?</h1>
+<div id="animal">🐥</div>
+<p id="question"></p>
+
+<div id="answers"></div>
+
+<p id="result"></p>
+</div>
+
+<script>
+let scores = {frog:0, raccoon:0, cat:0, owl:0, bunny:0};
+
+let quiz = [
+  ["How do you handle problems?", ["Cry","Panic","Sleep","Overthink","Ignore"]],
+  ["Your phone dies. You…", ["Feel sad","Blame universe","Nap","Google solutions","Accept fate"]],
+  ["Your vibe is…", ["Soft","Unhinged","Lazy","Anxious","Quiet"]],
+  ["You wake up and you feel…", ["Emotional","Chaotic","Sleepy","Stressed","Shy"]],
+  ["At parties you…", ["Get overwhelmed","Steal snacks","Sit down","Think too much","Hide"]],
+  ["Your brain is…", ["Full of feelings","Full of chaos","Half asleep","Overloaded","Gentle"]],
+  ["You drop food. You…", ["Cry","Laugh","Eat it anyway","Overthink it","Say sorry"]],
+  ["Your favorite place?", ["Bed","Kitchen","Sofa","Library","Corner"]],
+  ["You see drama. You…", ["Get emotional","Join it","Sleep","Analyze","Avoid"]],
+  ["People describe you as…", ["Soft","Wild","Lazy","Smart","Sweet"]]
+];
+
+let animals = ["frog","raccoon","cat","owl","bunny"];
+let emojis = {
+ frog:"🐸", raccoon:"🦝", cat:"🐱", owl:"🦉", bunny:"🐰"
+};
+
+let step = 0;
+
+function loadQuestion(){
+  document.getElementById("question").innerText = quiz[step][0];
+  let html = "";
+  for(let i=0;i<5;i++){
+    html += `<button onclick="pick('${animals[i]}')">${quiz[step][1][i]}</button>`;
+  }
+  document.getElementById("answers").innerHTML = html;
+}
+
+function pick(animal){
+  scores[animal]++;
+  step++;
+  if(step < quiz.length){
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult(){
+  let best = "frog";
+  for(let a in scores){
+    if(scores[a] > scores[best]) best = a;
+  }
+
+  let texts = {
+    frog:"Emotional Frog — You feel everything deeply 💕",
+    raccoon:"Chaotic Raccoon — You cause problems and steal snacks 😈",
+    cat:"Sleepy Cat — Always tired but adorable 😴",
+    owl:"Overthinking Owl — Your brain never stops 🧠",
+    bunny:"Soft Bunny — Sweet, shy, and gentle 🌸"
+  };
+
+  document.getElementById("animal").innerText = emojis[best];
+  document.getElementById("question").innerText = "You are...";
+  document.getElementById("answers").innerHTML = "";
+  document.getElementById("result").innerText = texts[best];
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
